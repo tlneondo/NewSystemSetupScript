@@ -109,3 +109,8 @@ echo "hrtf = true" >> ~/.alsoftrc
 
 #run installer for oh my zsh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+echo "Rebooting in 10 Seconds!"
+
+sleep 10
+reboot
