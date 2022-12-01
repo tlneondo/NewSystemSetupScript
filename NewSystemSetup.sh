@@ -9,24 +9,29 @@ sudo systemctl start sshd.service
 cd /mnt
 sudo mkdir Windows Storage SSD0 SSD1 SSD2 Documents
 
-sudo chown -r icyjiub:icyjiub /mnt/Windows
-sudo chown -r icyjiub:icyjiub /mnt/Storage
-sudo chown -r icyjiub:icyjiub /mnt/SSD0
-sudo chown -r icyjiub:icyjiub /mnt/SSD1
-sudo chown -r icyjiub:icyjiub /mnt/SSD2
-sudo chown -r icyjiub:icyjiub /mnt/Documents
+sudo chown -R icyjiub:icyjiub /mnt/Windows
+sudo chown -R icyjiub:icyjiub /mnt/Storage
+sudo chown -R icyjiub:icyjiub /mnt/SSD0
+sudo chown -R icyjiub:icyjiub /mnt/SSD1
+sudo chown -R icyjiub:icyjiub /mnt/SSD2
+sudo chown -R icyjiub:icyjiub /mnt/Documents
 
 cd ~
 
-rm Documents Videos Pictures Downloads Music
+rm -r Documents/ Videos/ Pictures/ Downloads/ Music/
 
-ln -s /mnt/Documents/Media/Documents /home/icyjiub/Documents
-ln -s /mnt/Documents/Media/Videos /home/icyjiub/Videos
-ln -s /mnt/Documents/Media/Pictures /home/icyjiub/Pictures
-ln -s /mnt/Documents/Media/Downloads /home/icyjiub/Downloads
-ln -s /mnt/Storage/Media/Music /home/icyjiub/Music
+ln -s /mnt/Documents/Media/Documents/ /home/icyjiub/
+ln -s /mnt/Documents/Media/Videos/ /home/icyjiub/
+ln -s /mnt/Documents/Media/Pictures/ /home/icyjiub/
+ln -s /mnt/Documents/Media/Downloads/ /home/icyjiub/
+ln -s /mnt/Storage/Media/Music/ /home/icyjiub/
 
 cd ~
+
+
+echo "hrtf = true" >> ~/.alsoftrc
+
+yay -S bottles
 
 yay -S timeshift
 
@@ -40,7 +45,5 @@ update-grub
 
 sudo systemctl enable grub-btrfs.path
 
-echo "hrtf = true" >> ~/.alsoftrc
 
-yay -S bottles
 
