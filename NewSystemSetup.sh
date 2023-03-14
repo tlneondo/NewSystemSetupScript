@@ -43,60 +43,27 @@ ln -s /mnt/Documents/Media/Downloads/ /home/icyjiub/
 ln -s /mnt/Storage/Media/Music/ /home/icyjiub/
 
 #update drivers
-sudo pacman -Sy mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau
+sudo pacman -Syu mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau base-devel mpv yay zsh firefox tldr curl steam lutris flatpak  linux-zen grub-btrfs qbittorrent yt-dlp corectrl pipewire lib32-pipewire xdg-desktop-portal xdg-desktop-portal-kde qpwgraph filezilla plasma-wayland-session colord colord-kde noto-fonts-cjk noto-fonts-emoji gamemode mpd discover
+
 
 #disable propriertary AMD Drivers
-sudo echo "AMD_VULKAN_ICD=RADV" >> /etc/environment
-
-#install lutris dependencies
-sudo pacman -Sy --needed wine-staging giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama ncurses lib32-ncurses ocl-icd lib32-ocl-icd libxslt lib32-libxslt libva lib32-libva gtk3 lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader
-
-#install prefered packages
-sudo pacman -Sy base-devel mpv yay zsh firefox tldr curl steam lutris flatpak discover linux-zen grub-btrfs qbittorrent yt-dlp corectrl pipewire lib32-pipewire xdg-desktop-portal xdg-desktop-portal-kde qpwgraph lollypop filezilla plasma-wayland-session colord colord-kde noto-fonts-cjk noto-fonts-emoji gamemode
-
+sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /etc/environment"
 
 #install AUR packages
-yay -Sy heroic-games-launcher-bin
-yay -Sy discord-canary
-yay -Sy gamescope-git
-yay -Sy sddm-git
-yay -Sy raze
-yay -Sy ckb-next
-yay -Sy ttf-symbola
-yay -Sy mullvad-vpn-bin
-yay -Sy vopono
-yay -Sy latte-dock
-
-
-#install flatpak packages
-flatpak install -y --noninteractive flathub net.davidotek.pupgui2
-flatpak install -y --noninteractive flathub com.visualstudio.code
-flatpak install -y --noninteractive flathub com.usebottles.bottles
-flatpak install -y --noninteractive flathub us.zoom.Zoom
-flatpak install -y --noninteractive flathub org.chromium.Chromium
-flatpak install -y --noninteractive flathub com.anydesk.Anydesk
-flatpak install -y --noninteractive flathub com.github.tchx84.Flatseal
-flatpak install -y --noninteractive flathub org.signal.Signal
-flatpak install -y --noninteractive flathub org.onlyoffice.desktopeditors
-flatpak install -y --noninteractive flathub com.github.Matoking.protontricks
-flatpak install -y --noninteractive flathub org.libretro.RetroArch
-flatpak install -y --noninteractive flathub org.DolphinEmu.dolphin-emu
-flatpak install -y --noninteractive flathub net.rpcs3.RPCS3
-flatpak install -y --noninteractive flathub io.github.shiiion.primehack
-flatpak install -y --noninteractive flathub dev.goats.xivlauncher
-flatpak install -y --noninteractive flathub io.github.am2r_community_developers.AM2RLauncher
-flatpak install -y --noninteractive flathub org.yuzu_emu.yuzu
-flatpak install -y --noninteractive flathub org.ryujinx.Ryujinx
-flatpak install -y --noninteractive flathub org.duckstation.DuckStation
-flatpak install -y --noninteractive flathub tv.plex.PlexDesktop
-flatpak install -y --noninteractive flathub io.gitlab.jstest_gtk.jstest_gtk
-
-
+yay -Sy --sudoloop --noconfirm heroic-games-launcher-bin
+yay -Sy --sudoloop --noconfirm discord-canary
+yay -Sy --sudoloop --noconfirm gamescope-git
+yay -Sy --sudoloop --noconfirm sddm-git
+yay -Sy --sudoloop --noconfirm raze
+yay -Sy --sudoloop --noconfirm ckb-next
+yay -Sy --sudoloop --noconfirm ttf-symbola
+yay -Sy --sudoloop --noconfirm mullvad-vpn-bin
+yay -Sy --sudoloop --noconfirm vopono
 
 #install and enable BTRFS snapshotting
-yay -Sy timeshift
-yay -Sy timeshift-autosnap
-yay -Sy update-grub
+yay -Sy --sudoloop --noconfirm timeshift
+yay -Sy --sudoloop --noconfirm timeshift-autosnap
+yay -Sy --sudoloop --noconfirm update-grub
 update-grub
 sudo systemctl enable grub-btrfs.path
 
