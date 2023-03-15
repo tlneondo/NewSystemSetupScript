@@ -52,7 +52,7 @@ ln -s /mnt/Storage/Media/Music/ /home/icyjiub/
 #update drivers & install programs
 sudo pacman -S mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau base-devel mpv zsh firefox tldr curl steam lutris flatpak linux-zen grub-btrfs qbittorrent yt-dlp corectrl pipewire lib32-pipewire xdg-desktop-portal xdg-desktop-portal-kde qpwgraph filezilla plasma-wayland-session colord colord-kde noto-fonts-cjk noto-fonts-emoji gamemode mpd discover byobu bluez bluez-utils wireguard-tools
 
-#install yay
+#install yay for AUR access
 git clone https://aur.archlinux.org/yay.git
 cd yay  && makepkg -si
 cd ../ && rm -fr yay
@@ -84,6 +84,7 @@ yay -Sy --sudoloop --noconfirm mpdevil
 yay -Sy --sudoloop --noconfirm obs-studio-amf
 yay -Sy --sudoloop --noconfirm obs-vkcapture
 yay -Sy --sudoloop --noconfirm lib32-obs-vkcapture
+yay -Sy --sudoloop --noconfirm preload
 
 #install and enable BTRFS snapshotting
 yay -Sy --sudoloop --noconfirm timeshift
@@ -91,6 +92,10 @@ yay -Sy --sudoloop --noconfirm timeshift-autosnap
 yay -Sy --sudoloop --noconfirm update-grub
 sudo systemctl enable grub-btrfs.path
 sudo update-grub
+
+#enable preload service
+sudo systemctl start preload.service
+sudo systemctl enable preload.service
 
 #enable HRTF for openal
 echo "hrtf = true" > ~/.alsoftrc
