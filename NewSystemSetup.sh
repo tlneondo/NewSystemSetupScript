@@ -1,6 +1,4 @@
 #!/bin/bash
-#update base packages
-sudo pacman -Syu
 
 #Backup default FSTAB drive mapping
 sudo cp /etc/fstab /etc/fstab.vanilla
@@ -47,10 +45,11 @@ ln -s /mnt/Documents/Media/Pictures/ /home/icyjiub/
 ln -s /mnt/Documents/Media/Downloads/ /home/icyjiub/
 ln -s /mnt/Storage/Media/Music/ /home/icyjiub/
 
-
+#run initial package update
+sudo pacman -Syu --noconfirm
 
 #update drivers & install programs
-sudo pacman -S mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau base-devel mpv zsh firefox tldr curl steam lutris flatpak linux-zen grub-btrfs qbittorrent yt-dlp corectrl pipewire lib32-pipewire xdg-desktop-portal xdg-desktop-portal-kde qpwgraph filezilla plasma-wayland-session colord colord-kde noto-fonts-cjk noto-fonts-emoji gamemode mpd discover byobu bluez bluez-utils wireguard-tools
+sudo pacman -S --noconfirm mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau base-devel mpv zsh firefox tldr curl steam lutris flatpak linux-zen grub-btrfs qbittorrent yt-dlp corectrl pipewire lib32-pipewire xdg-desktop-portal xdg-desktop-portal-kde qpwgraph filezilla plasma-wayland-session colord colord-kde noto-fonts-cjk noto-fonts-emoji gamemode mpd discover byobu bluez bluez-utils wireguard-tools
 
 #install yay for AUR access
 git clone https://aur.archlinux.org/yay.git
@@ -70,28 +69,38 @@ sleep 5
 cd ~
 rm -fr ./amftemp
 
+#set yay settings for autoconfirms
+
 #install AUR packages
-yay -Sy --sudoloop --noconfirm heroic-games-launcher-bin
-yay -Sy --sudoloop --noconfirm discord-canary
-yay -Sy --sudoloop --noconfirm gamescope-git
-yay -Sy --sudoloop --noconfirm sddm-git
-yay -Sy --sudoloop --noconfirm raze
-yay -Sy --sudoloop --noconfirm ckb-next
-yay -Sy --sudoloop --noconfirm ttf-symbola
-yay -Sy --sudoloop --noconfirm mullvad-vpn-bin
-yay -Sy --sudoloop --noconfirm vopono
-yay -Sy --sudoloop --noconfirm mpdevil
-yay -Sy --sudoloop --noconfirm obs-studio-amf
-yay -Sy --sudoloop --noconfirm obs-vkcapture
-yay -Sy --sudoloop --noconfirm lib32-obs-vkcapture
-yay -Sy --sudoloop --noconfirm preload
+yay -S --sudoloop heroic-games-launcher-bin
+yay -S --sudoloop discord-canary
+yay -S --sudoloop gamescope-git
+yay -S --sudoloop sddm-git
+yay -S --sudoloop raze
+yay -S --sudoloop ckb-next
+yay -S --sudoloop ttf-symbola
+yay -S --sudoloop mullvad-vpn-bin
+yay -S --sudoloop vopono
+yay -S --sudoloop mpdevil
+yay -S --sudoloop obs-studio-amf
+yay -S --sudoloop obs-vkcapture
+yay -S --sudoloop lib32-obs-vkcapture
+yay -S --sudoloop preload
 
 #install and enable BTRFS snapshotting
-yay -Sy --sudoloop --noconfirm timeshift
-yay -Sy --sudoloop --noconfirm timeshift-autosnap
-yay -Sy --sudoloop --noconfirm update-grub
+yay -S --sudoloop timeshift
+yay -S --sudoloop timeshift-autosnap
+yay -S --sudoloop update-grub
 sudo systemctl enable grub-btrfs.path
-sudo update-grub
+
+#clear yay settings
+
+#blacklist ryzen watchdog for less annoyance at reboots
+sudo su -c "echo 'blacklist sp5100_tco' > /etc/modprobe.d/disable-sp5100-watchdog.conf"
+
+#make edits to grub
+sudo sed -i 's/GRUB_DISABLE_OS_PROBER=false/GRUB_DISABLE_OS_PROBER=true/' /etc/default/grub
+sudo sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT="/&amdgpu.ppfeaturemask=0xffffffff /' /etc/default/grub
 
 #enable preload service
 sudo systemctl start preload.service
@@ -123,6 +132,12 @@ sudo su -c "echo 'polkit.addRule(function(action, subject) {
     }
 });
 ' >> /etc/polkit-1/rules.d/90-corectrl.rules"
+
+#copy monitor profile into colord folder
+sudo cp /mnt/Documents/Media/Documents/BenQXL2420Z120hz.icm usr/share/color/icc/colord/
+
+#change shell to zsh
+
 
 #run installer for oh my zsh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
