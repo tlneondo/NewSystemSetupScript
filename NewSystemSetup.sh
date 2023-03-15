@@ -43,11 +43,22 @@ ln -s /mnt/Documents/Media/Downloads/ /home/icyjiub/
 ln -s /mnt/Storage/Media/Music/ /home/icyjiub/
 
 #update drivers
-sudo pacman -Syu mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau base-devel mpv yay zsh firefox tldr curl steam lutris flatpak  linux-zen grub-btrfs qbittorrent yt-dlp corectrl pipewire lib32-pipewire xdg-desktop-portal xdg-desktop-portal-kde qpwgraph filezilla plasma-wayland-session colord colord-kde noto-fonts-cjk noto-fonts-emoji gamemode mpd discover
+sudo pacman -Syu mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau base-devel mpv yay zsh firefox tldr curl steam lutris flatpak linux-zen grub-btrfs qbittorrent yt-dlp corectrl pipewire lib32-pipewire xdg-desktop-portal xdg-desktop-portal-kde qpwgraph filezilla plasma-wayland-session colord colord-kde noto-fonts-cjk noto-fonts-emoji gamemode mpd discover byobu
 
 
 #disable propriertary AMD Drivers
 sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /etc/environment"
+
+#install proprietary driver stub
+
+cd ~
+mkdir amftemp && cd amftemp
+git clone https://github.com/Frogging-Family/amdgpu-pro-vulkan-only
+cd amdgpu-pro-vulkan-only
+makepkg -si
+sleep 5
+cd ~
+rm -fr ./amftemp
 
 #install AUR packages
 yay -Sy --sudoloop --noconfirm heroic-games-launcher-bin
@@ -59,6 +70,10 @@ yay -Sy --sudoloop --noconfirm ckb-next
 yay -Sy --sudoloop --noconfirm ttf-symbola
 yay -Sy --sudoloop --noconfirm mullvad-vpn-bin
 yay -Sy --sudoloop --noconfirm vopono
+yay -Sy --sudoloop --noconfirm mpdevil
+yay -Sy --sudoloop --noconfirm obs-studio-amf
+yay -Sy --sudoloop --noconfirm obs-vkcapture
+yay -Sy --sudoloop --noconfirm lib32-obs-vkcapture
 
 #install and enable BTRFS snapshotting
 yay -Sy --sudoloop --noconfirm timeshift
@@ -76,6 +91,23 @@ sudo systemctl start sshd.service
 
 sudo systemctl enable bluetooth.service
 sudo systemctl start bluetooth.service
+
+#enable byobu multiplexer by default
+byobu-enable
+
+#setup corectrl
+cp /usr/share/applications/org.corectrl.corectrl.desktop ~/.config/autostart/org.corectrl.corectrl.desktop
+
+sudo su -c "echo 'polkit.addRule(function(action, subject) {
+    if ((action.id == "org.corectrl.helper.init" ||
+         action.id == "org.corectrl.helperkiller.init") &&
+        subject.local == true &&
+        subject.active == true &&
+        subject.isInGroup("your-user-group")) {
+            return polkit.Result.YES;
+    }
+});
+' >> /etc/polkit-1/rules.d/90-corectrl.rules"
 
 #run installer for oh my zsh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
