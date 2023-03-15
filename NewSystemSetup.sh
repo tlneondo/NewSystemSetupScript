@@ -64,7 +64,7 @@ yay -Sy --sudoloop --noconfirm vopono
 yay -Sy --sudoloop --noconfirm timeshift
 yay -Sy --sudoloop --noconfirm timeshift-autosnap
 yay -Sy --sudoloop --noconfirm update-grub
-update-grub
+sudo update-grub
 sudo systemctl enable grub-btrfs.path
 
 #enable HRTF for openal
