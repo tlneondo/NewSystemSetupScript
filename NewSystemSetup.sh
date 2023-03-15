@@ -5,6 +5,10 @@ sudo pacman -Syu
 #Backup default FSTAB drive mapping
 sudo cp /etc/fstab /etc/fstab.vanilla
 
+#Set Up BTRFS Swap file
+sudo btrfs filesystem mkswapfile --size 8g /swap
+sudo swapon /swap
+
 ##Add drives to fstab
 
 sudo su -c "echo 'UUID=90dfd5d0-475b-4d01-b2fe-5eb31aed37fc /mnt/SSD0         btrfs   defaults,discard=async,ssd,noatime,compress=zstd 0 0' >> /etc/fstab"
@@ -13,6 +17,7 @@ sudo su -c "echo 'UUID=ed43e4f3-64d3-40d9-a929-11354bf8c339 /mnt/SSD2         bt
 sudo su -c "echo 'UUID=ab7ffd5c-1cb6-4e20-9168-3f9d3b26393e /mnt/Documents    btrfs   defaults,compress=zstd 0 0' >> /etc/fstab"
 sudo su -c "echo 'UUID=c658b823-655d-4e67-8a9a-1c4d87313200 /mnt/Storage      btrfs   defaults,compress=zstd 0 0' >> /etc/fstab"
 sudo su -c "echo 'UUID=606CE9366CE9081C                     /mnt/Windows      ntfs    defaults 0 0' >> /etc/fstab"
+sudo su -c "echo '/swap none swap defaults 0 0' >> /etc/fstab"
 
 #make mount points
 cd /mnt
@@ -49,8 +54,7 @@ sudo pacman -Syu mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-ra
 #disable propriertary AMD Drivers
 sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /etc/environment"
 
-#install proprietary driver stub
-
+#install proprietary driver stub for OBS Hardware Encoding
 cd ~
 mkdir amftemp && cd amftemp
 git clone https://github.com/Frogging-Family/amdgpu-pro-vulkan-only
