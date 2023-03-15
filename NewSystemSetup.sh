@@ -48,7 +48,7 @@ ln -s /mnt/Documents/Media/Downloads/ /home/icyjiub/
 ln -s /mnt/Storage/Media/Music/ /home/icyjiub/
 
 #update drivers
-sudo pacman -Syu mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau base-devel mpv yay zsh firefox tldr curl steam lutris flatpak linux-zen grub-btrfs qbittorrent yt-dlp corectrl pipewire lib32-pipewire xdg-desktop-portal xdg-desktop-portal-kde qpwgraph filezilla plasma-wayland-session colord colord-kde noto-fonts-cjk noto-fonts-emoji gamemode mpd discover byobu
+sudo pacman -S mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau base-devel mpv yay zsh firefox tldr curl steam lutris flatpak linux-zen grub-btrfs qbittorrent yt-dlp corectrl pipewire lib32-pipewire xdg-desktop-portal xdg-desktop-portal-kde qpwgraph filezilla plasma-wayland-session colord colord-kde noto-fonts-cjk noto-fonts-emoji gamemode mpd discover byobu bluez bluez-utils wireguard-tools
 
 
 #disable propriertary AMD Drivers
@@ -83,11 +83,11 @@ yay -Sy --sudoloop --noconfirm lib32-obs-vkcapture
 yay -Sy --sudoloop --noconfirm timeshift
 yay -Sy --sudoloop --noconfirm timeshift-autosnap
 yay -Sy --sudoloop --noconfirm update-grub
-sudo update-grub
 sudo systemctl enable grub-btrfs.path
+sudo update-grub
 
 #enable HRTF for openal
-echo "hrtf = true" >> ~/.alsoftrc
+echo "hrtf = true" > ~/.alsoftrc
 
 #enable SSH Server and bluetootth
 sudo systemctl enable sshd.service
@@ -100,7 +100,7 @@ sudo systemctl start bluetooth.service
 byobu-enable
 
 #setup corectrl
-cp /usr/share/applications/org.corectrl.corectrl.desktop ~/.config/autostart/org.corectrl.corectrl.desktop
+sudo cp /usr/share/applications/org.corectrl.corectrl.desktop ~/.config/autostart/org.corectrl.corectrl.desktop
 
 sudo su -c "echo 'polkit.addRule(function(action, subject) {
     if ((action.id == "org.corectrl.helper.init" ||
