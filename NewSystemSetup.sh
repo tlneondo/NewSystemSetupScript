@@ -49,7 +49,12 @@ ln -s /mnt/Storage/Media/Music/ /home/icyjiub/
 sudo pacman -Syu --noconfirm
 
 #update drivers & install programs
-sudo pacman -S --noconfirm mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau base-devel mpv zsh firefox tldr curl steam lutris flatpak linux-zen grub-btrfs qbittorrent yt-dlp corectrl pipewire lib32-pipewire xdg-desktop-portal xdg-desktop-portal-kde qpwgraph filezilla plasma-wayland-session colord colord-kde noto-fonts-cjk noto-fonts-emoji gamemode mpd discover byobu bluez bluez-utils wireguard-tools
+sudo pacman -S --noconfirm xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau base-devel mpv zsh firefox tldr curl steam lutris flatpak linux-zen grub-btrfs qbittorrent yt-dlp corectrl pipewire lib32-pipewire xdg-desktop-portal xdg-desktop-portal-kde qpwgraph filezilla plasma-wayland-session colord colord-kde noto-fonts-cjk noto-fonts-emoji gamemode mpd discover byobu bluez bluez-utils wireguard-tools
+
+
+#set up chaotic AUR
+
+
 
 #install yay for AUR access
 git clone https://aur.archlinux.org/yay.git
@@ -58,16 +63,17 @@ cd ../ && rm -fr yay
 
 #disable propriertary AMD Drivers
 sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /etc/environment"
+sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /etc/profile"
 
-#install proprietary driver stub for OBS Hardware Encoding
-cd ~
-mkdir amftemp && cd amftemp
-git clone https://github.com/Frogging-Family/amdgpu-pro-vulkan-only
-cd amdgpu-pro-vulkan-only
-makepkg -si
-sleep 5
-cd ~
-rm -fr ./amftemp
+##install proprietary driver stub for OBS Hardware Encoding
+#cd ~
+#mkdir amftemp && cd amftemp
+#git clone https://github.com/Frogging-Family/amdgpu-pro-vulkan-only
+#cd amdgpu-pro-vulkan-only
+#makepkg -si
+#sleep 5
+#cd ~
+#rm -fr ./amftemp
 
 #set yay settings for autoconfirms
 
