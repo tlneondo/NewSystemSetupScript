@@ -154,6 +154,7 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /etc/environment"
 sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /etc/profile"
 sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /home/icyjiub/.zshrc"
+sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /home/icyjiub/.profile"
 
 #install flatpak packages
 
