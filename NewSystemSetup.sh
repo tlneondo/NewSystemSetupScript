@@ -145,7 +145,7 @@ sudo su -c "echo 'polkit.addRule(function(action, subject) {
 sudo cp /mnt/Documents/Media/Documents/BenQXL2420Z120hz.icm usr/share/color/icc/colord/
 
 #change shell to zsh
-
+chsh -s /usr/bin/zsh icyjiub
 
 #run installer for oh my zsh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
