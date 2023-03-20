@@ -45,10 +45,6 @@ ln -s /mnt/Documents/Media/Pictures/ /home/icyjiub/
 ln -s /mnt/Documents/Media/Downloads/ /home/icyjiub/
 ln -s /mnt/Storage/Media/Music/ /home/icyjiub/
 
-#run initial package update
-sudo pacman -Syu --noconfirm
-
-
 #set up chaotic AUR
 
 sudo pacman-key --recv-key FBA220DFC880C036 --keyserver keyserver.ubuntu.com
@@ -56,6 +52,9 @@ sudo pacman-key --lsign-key FBA220DFC880C036
 sudo pacman -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst' 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
 sudo su -c "echo '[chaotic-aur]' >> /etc/pacman.conf"
 sudo su -c "echo 'Include = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.conf"
+
+#run initial package update
+sudo pacman -Syu --noconfirm
 
 #update drivers & install programs
 sudo pacman -S --noconfirm xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau base-devel mpv zsh firefox tldr curl steam lutris flatpak linux-zen grub-btrfs qbittorrent yt-dlp corectrl pipewire lib32-pipewire xdg-desktop-portal xdg-desktop-portal-kde qpwgraph filezilla plasma-wayland-session colord colord-kde noto-fonts-cjk noto-fonts-emoji gamemode mpd discover byobu bluez bluez-utils wireguard-tools mesa-tkg lib32-mesa-tkg
@@ -80,8 +79,9 @@ sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /etc/profile"
 #rm -fr ./amftemp
 
 #set yay settings for autoconfirms
+yay --save --answerdiff None --answerclean None --removemake
 
-#install AUR packages
+#install AUR packagesyay --save --answerdiff None --answerclean None --removemake
 yay -S --sudoloop heroic-games-launcher-bin
 yay -S --sudoloop discord-canary
 yay -S --sudoloop gamescope-git
@@ -104,6 +104,7 @@ yay -S --sudoloop update-grub
 sudo systemctl enable grub-btrfs.path
 
 #clear yay settings
+rm ~/.config/yay/config.json
 
 #blacklist ryzen watchdog for less annoyance at reboots
 sudo su -c "echo 'blacklist sp5100_tco' > /etc/modprobe.d/disable-sp5100-watchdog.conf"
