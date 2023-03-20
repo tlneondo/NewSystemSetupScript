@@ -77,7 +77,7 @@ cd ../ && rm -fr yay
 #set yay settings for autoconfirms
 yay --save --answerdiff None --answerclean None --removemake
 
-#install AUR packagesyay --save --answerdiff None --answerclean None --removemake
+#install AUR packages
 yay -S --sudoloop heroic-games-launcher-bin
 yay -S --sudoloop discord-canary
 yay -S --sudoloop gamescope-git
