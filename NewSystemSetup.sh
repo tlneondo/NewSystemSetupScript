@@ -64,10 +64,6 @@ git clone https://aur.archlinux.org/yay.git
 cd yay  && makepkg -si
 cd ../ && rm -fr yay
 
-#disable propriertary AMD Drivers
-sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /etc/environment"
-sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /etc/profile"
-
 ##install proprietary driver stub for OBS Hardware Encoding
 #cd ~
 #mkdir amftemp && cd amftemp
@@ -154,7 +150,10 @@ sudo cp /mnt/Documents/Media/Documents/BenQXL2420Z120hz.icm usr/share/color/icc/
 #run installer for oh my zsh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-
+#disable propriertary AMD Drivers
+sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /etc/environment"
+sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /etc/profile"
+sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /home/icyjiub/.zshrc"
 
 #install flatpak packages
 
