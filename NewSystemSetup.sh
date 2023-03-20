@@ -152,3 +152,31 @@ sudo cp /mnt/Documents/Media/Documents/BenQXL2420Z120hz.icm usr/share/color/icc/
 
 #run installer for oh my zsh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+
+
+#install flatpak packages
+
+flatpak update --noninteractive
+
+flatpak install -y --noninteractive flathub net.davidotek.pupgui2
+#flatpak install -y --noninteractive flathub com.visualstudio.code
+flatpak install -y --noninteractive flathub com.usebottles.bottles
+flatpak install -y --noninteractive flathub us.zoom.Zoom
+flatpak install -y --noninteractive flathub org.chromium.Chromium
+flatpak install -y --noninteractive flathub com.anydesk.Anydesk
+flatpak install -y --noninteractive flathub com.github.tchx84.Flatseal
+flatpak install -y --noninteractive flathub org.signal.Signal
+flatpak install -y --noninteractive flathub org.onlyoffice.desktopeditors
+flatpak install -y --noninteractive flathub com.github.Matoking.protontricks
+flatpak install -y --noninteractive flathub org.libretro.RetroArch
+flatpak install -y --noninteractive flathub org.DolphinEmu.dolphin-emu
+#flatpak install -y --noninteractive flathub net.rpcs3.RPCS3
+flatpak install -y --noninteractive flathub io.github.shiiion.primehack
+flatpak install -y --noninteractive flathub dev.goats.xivlauncher
+flatpak install -y --noninteractive flathub io.github.am2r_community_developers.AM2RLauncher
+#flatpak install -y --noninteractive flathub org.yuzu_emu.yuzu
+#flatpak install -y --noninteractive flathub org.ryujinx.Ryujinx
+flatpak install -y --noninteractive flathub org.duckstation.DuckStation
+flatpak install -y --noninteractive flathub tv.plex.PlexDesktop
+flatpak install -y --noninteractive flathub io.gitlab.jstest_gtk.jstest_gtk
