@@ -117,7 +117,7 @@ sudo systemctl enable preload.service
 #enable HRTF for openal
 echo "hrtf = true" > ~/.alsoftrc
 
-#enable SSH Server and bluetootth
+#enable SSH Server and bluetooth
 sudo systemctl enable sshd.service
 sudo systemctl start sshd.service
 
