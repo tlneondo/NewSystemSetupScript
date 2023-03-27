@@ -57,25 +57,25 @@ sudo su -c "echo 'Include = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.con
 sudo pacman -Syu --noconfirm
 
 #update drivers & install programs
-sudo pacman -S --noconfirm xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau base-devel mpv zsh firefox tldr curl steam lutris flatpak linux-zen grub-btrfs qbittorrent yt-dlp corectrl pipewire lib32-pipewire xdg-desktop-portal xdg-desktop-portal-kde qpwgraph filezilla plasma-wayland-session colord colord-kde noto-fonts-cjk noto-fonts-emoji gamemode mpd discover byobu bluez bluez-utils wireguard-tools mesa-tkg lib32-mesa-tkg
+sudo pacman -S --noconfirm mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau base-devel mpv zsh firefox tldr curl steam lutris flatpak linux-zen grub-btrfs qbittorrent yt-dlp corectrl pipewire lib32-pipewire xdg-desktop-portal xdg-desktop-portal-kde qpwgraph filezilla plasma-wayland-session colord colord-kde noto-fonts-cjk noto-fonts-emoji gamemode mpd discover byobu bluez bluez-utils wireguard-tools
+
+
 
 #install yay for AUR access
 git clone https://aur.archlinux.org/yay.git
 cd yay  && makepkg -si
 cd ../ && rm -fr yay
 
-##install proprietary driver stub for OBS Hardware Encoding
-#cd ~
-#mkdir amftemp && cd amftemp
-#git clone https://github.com/Frogging-Family/amdgpu-pro-vulkan-only
-#cd amdgpu-pro-vulkan-only
-#makepkg -si
-#sleep 5
-#cd ~
-#rm -fr ./amftemp
-
 #set yay settings for autoconfirms
 yay --save --answerdiff None --answerclean None --removemake
+
+#install proprietary amd driver and set environment variables so it is unused except for obs
+yay -S --sudoloop vulkan-amdgpu-pro
+yay -S --sudoloop lib32-vulkan-amdgpu-pro
+yay -S --sudoloop amf-amdgpu-pro
+sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /etc/environment"
+sudo su -c "echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/radeon_icd.i686.json:/usr/share/vulkan/icd.d/radeon_icd.x86_64.json' >> /etc/environment"
+#sudo su -c "echo '' >> /etc/environment"
 
 #install AUR packages
 yay -S --sudoloop heroic-games-launcher-bin
@@ -91,13 +91,18 @@ yay -S --sudoloop mpdevil
 yay -S --sudoloop obs-studio-amf
 yay -S --sudoloop obs-vkcapture
 yay -S --sudoloop lib32-obs-vkcapture
+yay -S --sudoloop obs-pipewire-audio-capture-bin
 yay -S --sudoloop preload
+
+
+
 
 #install and enable BTRFS snapshotting
 yay -S --sudoloop timeshift
 yay -S --sudoloop timeshift-autosnap
 yay -S --sudoloop update-grub
 sudo systemctl enable grub-btrfs.path
+
 
 #clear yay settings
 rm ~/.config/yay/config.json
