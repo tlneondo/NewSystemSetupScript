@@ -59,8 +59,6 @@ sudo pacman -Syu --noconfirm
 #update drivers & install programs
 sudo pacman -S --noconfirm mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau base-devel mpv zsh firefox tldr curl steam lutris flatpak linux-zen grub-btrfs qbittorrent yt-dlp corectrl pipewire lib32-pipewire xdg-desktop-portal xdg-desktop-portal-kde qpwgraph filezilla plasma-wayland-session colord colord-kde noto-fonts-cjk noto-fonts-emoji gamemode mpd discover byobu bluez bluez-utils wireguard-tools
 
-
-
 #install yay for AUR access
 git clone https://aur.archlinux.org/yay.git
 cd yay  && makepkg -si
@@ -99,15 +97,11 @@ yay -S --sudoloop lib32-obs-vkcapture
 yay -S --sudoloop obs-pipewire-audio-capture-bin
 yay -S --sudoloop preload
 
-
-
-
 #install and enable BTRFS snapshotting
 yay -S --sudoloop timeshift
 yay -S --sudoloop timeshift-autosnap
 yay -S --sudoloop update-grub
 sudo systemctl enable grub-btrfs.path
-
 
 #clear yay settings
 rm ~/.config/yay/config.json
@@ -162,8 +156,6 @@ chsh -s /usr/bin/zsh icyjiub
 
 #run installer for oh my zsh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-
 
 #install flatpak packages
 
