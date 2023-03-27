@@ -127,12 +127,15 @@ sudo systemctl enable preload.service
 #enable HRTF for openal
 echo "hrtf = true" > ~/.alsoftrc
 
-#enable SSH Server and bluetootth
+#enable SSH Server, bluetooth, preload
 sudo systemctl enable sshd.service
 sudo systemctl start sshd.service
 
 sudo systemctl enable bluetooth.service
 sudo systemctl start bluetooth.service
+
+sudo systemctl enable preload.service
+sudo systemctl start preload.service
 
 #enable byobu multiplexer by default
 byobu-enable
