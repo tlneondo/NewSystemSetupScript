@@ -104,7 +104,7 @@ sudo su -c "echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/radeon_icd.i686.json:
 
 #install AUR packages
 yay -S --sudoloop heroic-games-launcher-bin
-yay -S --sudoloop discord-canary
+yay -S --sudoloop discord-canary-electron-bin
 yay -S --sudoloop gamescope-git
 yay -S --sudoloop sddm-git
 yay -S --sudoloop raze
@@ -120,6 +120,11 @@ yay -S --sudoloop lib32-obs-vkcapture
 yay -S --sudoloop obs-pipewire-audio-capture-bin
 yay -S --sudoloop preload
 yay -S --sudoloop visual-studio-code-bin
+yay -S --sudoloop discord-canary-update-skip-git
+
+
+#discord canary update skip
+discord-canary-update-skip
 
 #install and enable BTRFS snapshotting
 yay -S --sudoloop timeshift
