@@ -21,48 +21,57 @@ read isRyzen
 #Backup default FSTAB drive mapping
 sudo cp /etc/fstab /etc/fstab.vanilla
 
-#Set Up BTRFS Swap file
-sudo btrfs filesystem mkswapfile --size 8g /swap
-sudo swapon /swap
-sudo su -c "echo '/swap none swap defaults 0 0' >> /etc/fstab"
+if(isBTRFSsystem)
+then
+    #Set Up BTRFS Swap file
+    sudo btrfs filesystem mkswapfile --size 8g /swap
+    sudo swapon /swap
+    sudo su -c "echo '/swap none swap defaults 0 0' >> /etc/fstab"
+else
+    echo "Skipping BTRFS SWAPFILE creation"
+fi
 
 
+if(isGamingDesktop)
+then
+    ##Add drives to fstab
+    sudo su -c "echo 'UUID=90dfd5d0-475b-4d01-b2fe-5eb31aed37fc /mnt/SSD0         btrfs   defaults,discard=async,ssd,noatime,compress=zstd 0 0' >> /etc/fstab"
+    sudo su -c "echo 'UUID=90194eb1-6fe7-4da5-b6ad-36c32112f4ca /mnt/SSD1         btrfs   defaults,discard=async,ssd,noatime,compress=zstd 0 0' >> /etc/fstab"
+    sudo su -c "echo 'UUID=ed43e4f3-64d3-40d9-a929-11354bf8c339 /mnt/SSD2         btrfs   defaults,discard=async,ssd,noatime,compress=zstd 0 0' >> /etc/fstab"
+    sudo su -c "echo 'UUID=ab7ffd5c-1cb6-4e20-9168-3f9d3b26393e /mnt/Documents    btrfs   defaults,compress=zstd 0 0' >> /etc/fstab"
+    sudo su -c "echo 'UUID=c658b823-655d-4e67-8a9a-1c4d87313200 /mnt/Storage      btrfs   defaults,compress=zstd 0 0' >> /etc/fstab"
+    sudo su -c "echo 'UUID=606CE9366CE9081C                     /mnt/Windows      ntfs    defaults 0 0' >> /etc/fstab"
 
-##Add drives to fstab
-sudo su -c "echo 'UUID=90dfd5d0-475b-4d01-b2fe-5eb31aed37fc /mnt/SSD0         btrfs   defaults,discard=async,ssd,noatime,compress=zstd 0 0' >> /etc/fstab"
-sudo su -c "echo 'UUID=90194eb1-6fe7-4da5-b6ad-36c32112f4ca /mnt/SSD1         btrfs   defaults,discard=async,ssd,noatime,compress=zstd 0 0' >> /etc/fstab"
-sudo su -c "echo 'UUID=ed43e4f3-64d3-40d9-a929-11354bf8c339 /mnt/SSD2         btrfs   defaults,discard=async,ssd,noatime,compress=zstd 0 0' >> /etc/fstab"
-sudo su -c "echo 'UUID=ab7ffd5c-1cb6-4e20-9168-3f9d3b26393e /mnt/Documents    btrfs   defaults,compress=zstd 0 0' >> /etc/fstab"
-sudo su -c "echo 'UUID=c658b823-655d-4e67-8a9a-1c4d87313200 /mnt/Storage      btrfs   defaults,compress=zstd 0 0' >> /etc/fstab"
-sudo su -c "echo 'UUID=606CE9366CE9081C                     /mnt/Windows      ntfs    defaults 0 0' >> /etc/fstab"
+    #make mount points
+    cd /mnt
+    sudo mkdir Windows Storage SSD0 SSD1 SSD2 Documents
+    cd ~
 
-#make mount points
-cd /mnt
-sudo mkdir Windows Storage SSD0 SSD1 SSD2 Documents
-cd ~
+    #reload fstab
+    sudo mount -a
 
-#reload fstab
-sudo mount -a
+    sleep 5
 
-sleep 5
+    #Take ownership of drives - recursive
+    sudo chown -R icyjiub:icyjiub /mnt/Windows
+    sudo chown -R icyjiub:icyjiub /mnt/Storage
+    sudo chown -R icyjiub:icyjiub /mnt/SSD0
+    sudo chown -R icyjiub:icyjiub /mnt/SSD1
+    sudo chown -R icyjiub:icyjiub /mnt/SSD2
+    sudo chown -R icyjiub:icyjiub /mnt/Documents
 
-#Take ownership of drives - recursive
-sudo chown -R icyjiub:icyjiub /mnt/Windows
-sudo chown -R icyjiub:icyjiub /mnt/Storage
-sudo chown -R icyjiub:icyjiub /mnt/SSD0
-sudo chown -R icyjiub:icyjiub /mnt/SSD1
-sudo chown -R icyjiub:icyjiub /mnt/SSD2
-sudo chown -R icyjiub:icyjiub /mnt/Documents
+    #Remove folders in Home
+    rm -r Documents/ Videos/ Pictures/ Downloads/ Music/
 
-#Remove folders in Home
-rm -r Documents/ Videos/ Pictures/ Downloads/ Music/
-
-#symbolically link folders on separate drives to links in home folder
-ln -s /mnt/Documents/Media/Documents/ /home/icyjiub/
-ln -s /mnt/Documents/Media/Videos/ /home/icyjiub/
-ln -s /mnt/Documents/Media/Pictures/ /home/icyjiub/
-ln -s /mnt/Documents/Media/Downloads/ /home/icyjiub/
-ln -s /mnt/Storage/Media/Music/ /home/icyjiub/
+    #symbolically link folders on separate drives to links in home folder
+    ln -s /mnt/Documents/Media/Documents/ /home/icyjiub/
+    ln -s /mnt/Documents/Media/Videos/ /home/icyjiub/
+    ln -s /mnt/Documents/Media/Pictures/ /home/icyjiub/
+    ln -s /mnt/Documents/Media/Downloads/ /home/icyjiub/
+    ln -s /mnt/Storage/Media/Music/ /home/icyjiub/
+else
+    echo "Skipping Desktop Drive Setup"
+fi
 
 #set up chaotic AUR
 
@@ -77,9 +86,22 @@ sudo pacman -Syu --noconfirm
 
 #update drivers & install programs
 
-sudo pacman -S --noconfirm mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau
+sudo pacman -S --noconfirm base-devel mpv zsh firefox tldr curl steam lutris flatpak linux-zen qbittorrent yt-dlp pipewire lib32-pipewire xdg-desktop-portal xdg-desktop-portal-kde qpwgraph filezilla plasma-wayland-session colord colord-kde noto-fonts-cjk noto-fonts-emoji gamemode mpd discover byobu bluez bluez-utils wireguard-tools git-lfs
 
-sudo pacman -S --noconfirm base-devel mpv zsh firefox tldr curl steam lutris flatpak linux-zen grub-btrfs qbittorrent yt-dlp corectrl pipewire lib32-pipewire xdg-desktop-portal xdg-desktop-portal-kde qpwgraph filezilla plasma-wayland-session colord colord-kde noto-fonts-cjk noto-fonts-emoji gamemode mpd discover byobu bluez bluez-utils wireguard-tools git-lfs
+
+if(isAMDGPU)
+then
+    sudo pacman -S --noconfirm mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau corectrl
+else
+    echo "Skipping AMD Mesa install"
+fi
+
+if(isBTRFSsystem)
+then
+    sudo pacman -S --noconfirm grub-btrfs
+else
+    echo "Skipping grub-btfs install"
+fi
 
 #install yay for AUR access
 git clone https://aur.archlinux.org/yay.git
@@ -138,23 +160,38 @@ yay -S --sudoloop obs-pipewire-audio-capture-bin
 #discord canary update skip
 discord-canary-update-skip
 
-if(isb)
-#install and enable BTRFS snapshotting
-yay -S --sudoloop timeshift
-yay -S --sudoloop timeshift-autosnap
-yay -S --sudoloop update-grubhttps://github.com/dotaxis/7H-SteamDeck-Fix
-sudo systemctl enable grub-btrfs.path
+if(isBTRFSsystem)
+then
+    #install and enable BTRFS snapshotting
+    yay -S --sudoloop timeshift
+    yay -S --sudoloop timeshift-autosnap
+    yay -S --sudoloop update-grubhttps://github.com/dotaxis/7H-SteamDeck-Fix
+    sudo systemctl enable grub-btrfs.path
+else
+    echo "Skipping BTRFS Snapshotting Setup"
+fi
 
 #clear yay settings
 rm ~/.config/yay/config.json
 
-#blacklist ryzen watchdog for less annoyance at reboots
-sudo su -c "echo 'blacklist sp5100_tco' > /etc/modprobe.d/disable-sp5100-watchdog.conf"
+if(isRyzen)
+then
+    #blacklist ryzen watchdog for less annoyance at reboots
+    sudo su -c "echo 'blacklist sp5100_tco' > /etc/modprobe.d/disable-sp5100-watchdog.conf"
+else
+    echo "Skipping ryzen watchdog blacklist"
+fi
 
 #make edits to grub
 sudo sed -i 's/GRUB_DISABLE_OS_PROBER=false/GRUB_DISABLE_OS_PROBER=true/' /etc/default/grub
-#not working yet
-#sudo sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT="/&amdgpu.ppfeaturemask=0xffffffff /' /etc/default/grub
+
+if(isAMDGPU)
+then
+    #not working yet
+    #sudo sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT="/&amdgpu.ppfeaturemask=0xffffffff /' /etc/default/grub
+else
+    echo "Skipping AMD kernel option setting"
+fi
 
 #enable preload service
 sudo systemctl start preload.service
@@ -173,26 +210,36 @@ sudo systemctl start bluetooth.service
 sudo systemctl enable preload.service
 sudo systemctl start preload.service
 
+if(isAMDGPU)
+then
 #setup corectrl
-sudo cp /usr/share/applications/org.corectrl.corectrl.desktop ~/.config/autostart/org.corectrl.corectrl.desktop
+    sudo cp /usr/share/applications/org.corectrl.corectrl.desktop ~/.config/autostart/org.corectrl.corectrl.desktop
 
-sudo su -c "echo 'polkit.addRule(function(action, subject) {
-    if ((action.id == "org.corectrl.helper.init" ||
-         action.id == "org.corectrl.helperkiller.init") &&
-        subject.local == true &&
-        subject.active == true &&
-        subject.isInGroup("your-user-group")) {
-            return polkit.Result.YES;
-    }#enable byobu multiplexer by default
-byobu-enable
-});
-' >> /etc/polkit-1/rules.d/90-corectrl.rules"
+    sudo su -c "echo 'polkit.addRule(function(action, subject) {
+        if ((action.id == "org.corectrl.helper.init" ||
+            action.id == "org.corectrl.helperkiller.init") &&
+            subject.local == true &&
+            subject.active == true &&
+            subject.isInGroup("your-user-group")) {
+                return polkit.Result.YES;
+        }#enable byobu multiplexer by default
+    byobu-enable
+    });
+    ' >> /etc/polkit-1/rules.d/90-corectrl.rules"
+else
+    echo "Skipping CoreCtrl Setup"
+fi
 
 #set vmmax map count options for better wine perf / tweak from steamos
 sudo su -c "echo 'vm.max_map_count = 2147483642' > /etc/sysctl.d/99-sysctl.conf"
 
-#copy monitor profile into colord folder
-sudo cp /mnt/Documents/Media/Documents/BenQXL2420Z120hz.icm usr/share/color/icc/colord/
+if(isGamingDesktop)
+then
+    #copy monitor profile into colord folder
+    sudo cp /mnt/Documents/Media/Documents/BenQXL2420Z120hz.icm usr/share/color/icc/colord/
+else
+    echo "Skipping ICC Profile Copying"
+fi
 
 #change shell to zsh
 chsh -s /usr/bin/zsh icyjiub
@@ -215,18 +262,22 @@ flatpak install -y --noninteractive flathub org.onlyoffice.desktopeditors
 flatpak install -y --noninteractive flathub com.github.Matoking.protontricks
 flatpak install -y --noninteractive flathub tv.plex.PlexDesktop
 
-#gaming related flatpaks
-flatpak install -y --noninteractive flathub org.yuzu_emu.yuzu
-flatpak install -y --noninteractive flathub org.ryujinx.Ryujinx
-flatpak install -y --noninteractive flathub org.duckstation.DuckStation
-flatpak install -y --noninteractive flathub io.gitlab.jstest_gtk.jstest_gtk
-flatpak install -y --noninteractive flathub org.libretro.RetroArch
-flatpak install -y --noninteractive flathub org.DolphinEmu.dolphin-emu
-flatpak install -y --noninteractive flathub net.rpcs3.RPCS3
-flatpak install -y --noninteractive flathub io.github.shiiion.primehack
-flatpak install -y --noninteractive flathub dev.goats.xivlauncher
-flatpak install -y --noninteractive flathub io.github.am2r_community_developers.AM2RLauncher
-
+if(isGamingDesktop)
+then
+    #gaming related flatpaks
+    flatpak install -y --noninteractive flathub org.yuzu_emu.yuzu
+    flatpak install -y --noninteractive flathub org.ryujinx.Ryujinx
+    flatpak install -y --noninteractive flathub org.duckstation.DuckStation
+    flatpak install -y --noninteractive flathub io.gitlab.jstest_gtk.jstest_gtk
+    flatpak install -y --noninteractive flathub org.libretro.RetroArch
+    flatpak install -y --noninteractive flathub org.DolphinEmu.dolphin-emu
+    flatpak install -y --noninteractive flathub net.rpcs3.RPCS3
+    flatpak install -y --noninteractive flathub io.github.shiiion.primehack
+    flatpak install -y --noninteractive flathub dev.goats.xivlauncher
+    flatpak install -y --noninteractive flathub io.github.am2r_community_developers.AM2RLauncher
+else
+    echo "Skipping Gaming Flatpaks"
+fi
 
 #enable byobu multiplexer by default
 byobu-enable
