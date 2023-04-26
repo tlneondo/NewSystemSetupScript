@@ -100,7 +100,7 @@ yay -S --sudoloop preload
 #install and enable BTRFS snapshotting
 yay -S --sudoloop timeshift
 yay -S --sudoloop timeshift-autosnap
-yay -S --sudoloop update-grub
+yay -S --sudoloop update-grubhttps://github.com/dotaxis/7H-SteamDeck-Fix
 sudo systemctl enable grub-btrfs.path
 
 #clear yay settings
@@ -147,6 +147,9 @@ sudo su -c "echo 'polkit.addRule(function(action, subject) {
     }
 });
 ' >> /etc/polkit-1/rules.d/90-corectrl.rules"
+
+#set vmmax map count options for better wine perf / tweak from steamos
+sudo su -c "echo 'vm.max_map_count = 2147483642' > /etc/sysctl.d/99-sysctl.conf"
 
 #copy monitor profile into colord folder
 sudo cp /mnt/Documents/Media/Documents/BenQXL2420Z120hz.icm usr/share/color/icc/colord/
