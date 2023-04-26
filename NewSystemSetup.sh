@@ -189,6 +189,7 @@ if(isAMDGPU)
 then
     #not working yet
     #sudo sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT="/&amdgpu.ppfeaturemask=0xffffffff /' /etc/default/grub
+    echo ""
 else
     echo "Skipping AMD kernel option setting"
 fi
