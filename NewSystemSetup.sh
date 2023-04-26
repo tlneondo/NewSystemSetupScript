@@ -108,6 +108,7 @@ yay -S --sudoloop discord-canary
 yay -S --sudoloop gamescope-git
 yay -S --sudoloop sddm-git
 yay -S --sudoloop raze
+yay -S --sudoloop gzdoom
 yay -S --sudoloop ckb-next
 yay -S --sudoloop ttf-symbola
 yay -S --sudoloop mullvad-vpn-bin
