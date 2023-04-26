@@ -1,20 +1,20 @@
 #!/bin/bash
 
-isGamingDesktop='n'
-isBTRFSsystem='n'
-isAMDGPU='n'
-isRyzen='n'
+isGamingDesktop=0
+isBTRFSsystem=0
+isAMDGPU=0
+isRyzen=0
 
-echo "Is this your desktop? y or n"
+echo "Is this your desktop? y or n - 1 or 0"
 read isGamingDesktop
 
-echo "Is root a btrfs partition? y or n"
-read isBTRFSroot
+echo "Is root a btrfs partition? y or n - 1 or 0"
+read isBTRFSsystem
 
-echo "Does this use an AMD GPU? y or n"
+echo "Does this use an AMD GPU? y or n - 1 or 0"
 read isAMDGPU
 
-echo "Does this use a Ryzen CPU? y or n"
+echo "Does this use a Ryzen CPU? y or n - 1 or 0"
 read isRyzen
 
 
@@ -89,18 +89,23 @@ cd ../ && rm -fr yay
 #set yay settings for autoconfirms
 yay --save --answerdiff None --answerclean None --removemake
 
-#install proprietary amd driver and set environment variables so it is unused except for obs
-yay -S --sudoloop vulkan-amdgpu-pro
-yay -S --sudoloop lib32-vulkan-amdgpu-pro
-yay -S --sudoloop amf-amdgpu-pro
-sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /etc/environment"
-sudo su -c "echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/radeon_icd.i686.json:/usr/share/vulkan/icd.d/radeon_icd.x86_64.json' >> /etc/environment"
-sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /etc/profile"
-sudo su -c "echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/radeon_icd.i686.json:/usr/share/vulkan/icd.d/radeon_icd.x86_64.json' >> /etc/profile"
-sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /home/icyjiub/.profile"
-sudo su -c "echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/radeon_icd.i686.json:/usr/share/vulkan/icd.d/radeon_icd.x86_64.json' >> /home/icyjiub/.profile"
-sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /home/icyjiub/.zshrc"
-sudo su -c "echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/radeon_icd.i686.json:/usr/share/vulkan/icd.d/radeon_icd.x86_64.json' >> /home/icyjiub/.zshrc"
+if(isAMDGPU)
+then
+    #install proprietary amd driver and set environment variables so it is unused except for obs
+    yay -S --sudoloop vulkan-amdgpu-pro
+    yay -S --sudoloop lib32-vulkan-amdgpu-pro
+    yay -S --sudoloop amf-amdgpu-pro
+    sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /etc/environment"
+    sudo su -c "echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/radeon_icd.i686.json:/usr/share/vulkan/icd.d/radeon_icd.x86_64.json' >> /etc/environment"
+    sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /etc/profile"
+    sudo su -c "echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/radeon_icd.i686.json:/usr/share/vulkan/icd.d/radeon_icd.x86_64.json' >> /etc/profile"
+    sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /home/icyjiub/.profile"
+    sudo su -c "echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/radeon_icd.i686.json:/usr/share/vulkan/icd.d/radeon_icd.x86_64.json' >> /home/icyjiub/.profile"
+    sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /home/icyjiub/.zshrc"
+    sudo su -c "echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/radeon_icd.i686.json:/usr/share/vulkan/icd.d/radeon_icd.x86_64.json' >> /home/icyjiub/.zshrc"
+else
+    echo "Skipping Proprietary AMD Drivers"
+fi
 
 #install AUR packages
 yay -S --sudoloop heroic-games-launcher-bin
@@ -114,18 +119,26 @@ yay -S --sudoloop ttf-symbola
 yay -S --sudoloop mullvad-vpn-bin
 yay -S --sudoloop vopono
 yay -S --sudoloop mpdevil
-yay -S --sudoloop obs-studio-amf
-yay -S --sudoloop obs-vkcapture
-yay -S --sudoloop lib32-obs-vkcapture
-yay -S --sudoloop obs-pipewire-audio-capture-bin
 yay -S --sudoloop preload
 yay -S --sudoloop visual-studio-code-bin
 yay -S --sudoloop discord-canary-update-skip-git
+
+if(isAMDGPU)
+then
+    yay -S --sudoloop obs-studio-amf
+else
+    yay -S --sudoloop obs-studio
+fi
+
+yay -S --sudoloop obs-vkcapture
+yay -S --sudoloop lib32-obs-vkcapture
+yay -S --sudoloop obs-pipewire-audio-capture-bin
 
 
 #discord canary update skip
 discord-canary-update-skip
 
+if(isb)
 #install and enable BTRFS snapshotting
 yay -S --sudoloop timeshift
 yay -S --sudoloop timeshift-autosnap
