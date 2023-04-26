@@ -1,5 +1,23 @@
 #!/bin/bash
 
+isGamingDesktop='n'
+isBTRFSsystem='n'
+isAMDGPU='n'
+isRyzen='n'
+
+echo "Is this your desktop? y or n"
+read isGamingDesktop
+
+echo "Is root a btrfs partition? y or n"
+read isBTRFSroot
+
+echo "Does this use an AMD GPU? y or n"
+read isAMDGPU
+
+echo "Does this use a Ryzen CPU? y or n"
+read isRyzen
+
+
 #Backup default FSTAB drive mapping
 sudo cp /etc/fstab /etc/fstab.vanilla
 
@@ -8,8 +26,9 @@ sudo btrfs filesystem mkswapfile --size 8g /swap
 sudo swapon /swap
 sudo su -c "echo '/swap none swap defaults 0 0' >> /etc/fstab"
 
-##Add drives to fstab
 
+
+##Add drives to fstab
 sudo su -c "echo 'UUID=90dfd5d0-475b-4d01-b2fe-5eb31aed37fc /mnt/SSD0         btrfs   defaults,discard=async,ssd,noatime,compress=zstd 0 0' >> /etc/fstab"
 sudo su -c "echo 'UUID=90194eb1-6fe7-4da5-b6ad-36c32112f4ca /mnt/SSD1         btrfs   defaults,discard=async,ssd,noatime,compress=zstd 0 0' >> /etc/fstab"
 sudo su -c "echo 'UUID=ed43e4f3-64d3-40d9-a929-11354bf8c339 /mnt/SSD2         btrfs   defaults,discard=async,ssd,noatime,compress=zstd 0 0' >> /etc/fstab"
@@ -57,7 +76,10 @@ sudo su -c "echo 'Include = /etc/pacman.d/chaotic-mirrorlist' >> /etc/pacman.con
 sudo pacman -Syu --noconfirm
 
 #update drivers & install programs
-sudo pacman -S --noconfirm mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau base-devel mpv zsh firefox tldr curl steam lutris flatpak linux-zen grub-btrfs qbittorrent yt-dlp corectrl pipewire lib32-pipewire xdg-desktop-portal xdg-desktop-portal-kde qpwgraph filezilla plasma-wayland-session colord colord-kde noto-fonts-cjk noto-fonts-emoji gamemode mpd discover byobu bluez bluez-utils wireguard-tools git-lfs
+
+sudo pacman -S --noconfirm mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau
+
+sudo pacman -S --noconfirm base-devel mpv zsh firefox tldr curl steam lutris flatpak linux-zen grub-btrfs qbittorrent yt-dlp corectrl pipewire lib32-pipewire xdg-desktop-portal xdg-desktop-portal-kde qpwgraph filezilla plasma-wayland-session colord colord-kde noto-fonts-cjk noto-fonts-emoji gamemode mpd discover byobu bluez bluez-utils wireguard-tools git-lfs
 
 #install yay for AUR access
 git clone https://aur.archlinux.org/yay.git
