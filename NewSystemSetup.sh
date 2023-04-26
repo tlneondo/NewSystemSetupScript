@@ -131,9 +131,6 @@ sudo systemctl start bluetooth.service
 sudo systemctl enable preload.service
 sudo systemctl start preload.service
 
-#enable byobu multiplexer by default
-byobu-enable
-
 #setup corectrl
 sudo cp /usr/share/applications/org.corectrl.corectrl.desktop ~/.config/autostart/org.corectrl.corectrl.desktop
 
@@ -144,7 +141,8 @@ sudo su -c "echo 'polkit.addRule(function(action, subject) {
         subject.active == true &&
         subject.isInGroup("your-user-group")) {
             return polkit.Result.YES;
-    }
+    }#enable byobu multiplexer by default
+byobu-enable
 });
 ' >> /etc/polkit-1/rules.d/90-corectrl.rules"
 
@@ -185,3 +183,8 @@ flatpak install -y --noninteractive flathub io.github.am2r_community_developers.
 flatpak install -y --noninteractive flathub org.duckstation.DuckStation
 flatpak install -y --noninteractive flathub tv.plex.PlexDesktop
 flatpak install -y --noninteractive flathub io.gitlab.jstest_gtk.jstest_gtk
+
+
+
+#enable byobu multiplexer by default
+byobu-enable
