@@ -50,7 +50,7 @@ then
 
     #make mount points
     cd /mnt
-    sudo mkdir Windows Storage SSD0 SSD1 SSD2 Documents
+    sudo mkdir Windows Storage SSD0 SSD1 SSD2 Documents NVME1
     cd ~
 
     #reload fstab
@@ -65,15 +65,16 @@ then
     sudo chown -R icyjiub:icyjiub /mnt/SSD1
     sudo chown -R icyjiub:icyjiub /mnt/SSD2
     sudo chown -R icyjiub:icyjiub /mnt/Documents
+    sudo chown -R icyjiub:icyjiub /mnt/NVME1
 
     #Remove folders in Home
     rm -r Documents/ Videos/ Pictures/ Downloads/ Music/
 
     #symbolically link folders on separate drives to links in home folder
-    ln -s /mnt/Documents/Media/Documents/ /home/icyjiub/
-    ln -s /mnt/Documents/Media/Videos/ /home/icyjiub/
-    ln -s /mnt/Documents/Media/Pictures/ /home/icyjiub/
-    ln -s /mnt/Documents/Media/Downloads/ /home/icyjiub/
+    ln -s /mnt/NVME1/Media/Documents/ /home/icyjiub/
+    ln -s /mnt/NVME1/Media/Videos/ /home/icyjiub/
+    ln -s /mnt/NVME1/Media/Pictures/ /home/icyjiub/
+    ln -s /mnt/NVME1/Media/Downloads/ /home/icyjiub/
     ln -s /mnt/Storage/Media/Music/ /home/icyjiub/
 else
     echo "Skipping Desktop Drive Setup"
