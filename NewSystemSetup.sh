@@ -7,7 +7,7 @@ isRyzen=0
 
 echo "Is this your desktop? y or n - 1 or 0"
 
-if $(hostname) == icyjiub-desktop; 
+if $(hostname) == "icyjiub-desktop"; 
     then isGamingDesktop=1
 fi
 
