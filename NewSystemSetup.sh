@@ -233,8 +233,7 @@ then
             subject.active == true &&
             subject.isInGroup("your-user-group")) {
                 return polkit.Result.YES;
-        }#enable byobu multiplexer by default
-    byobu-enable
+        }
     });
     ' >> /etc/polkit-1/rules.d/90-corectrl.rules"
 else
