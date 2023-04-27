@@ -229,14 +229,12 @@ sudo su -c "echo 'vm.max_map_count = 2147483642' > /etc/sysctl.d/99-sysctl.conf"
 if(isGamingDesktop)
 then
     #copy monitor profile into colord folder
-    sudo cp /mnt/Documents/Media/Documents/BenQXL2420Z120hz.icm usr/share/color/icc/colord/
+    sudo cp /mnt/Documents/Media/Documents/BenQXL2420Z120hz.icm /usr/share/color/icc/colord/
 fi
 
 #change shell to zsh
 chsh -s /usr/bin/zsh icyjiub
 
-#run installer for oh my zsh
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 #install flatpak packages
 
@@ -270,3 +268,7 @@ fi
 
 #enable byobu multiplexer by default
 byobu-enable
+
+
+#run installer for oh my zsh
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
