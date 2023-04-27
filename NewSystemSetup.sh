@@ -33,8 +33,6 @@ then
     sudo btrfs filesystem mkswapfile --size 8g /swap
     sudo swapon /swap
     sudo su -c "echo '/swap none swap defaults 0 0' >> /etc/fstab"
-else
-    echo "Skipping BTRFS SWAPFILE creation"
 fi
 
 
@@ -76,8 +74,6 @@ then
     ln -s /mnt/NVME1/Media/Pictures/ /home/icyjiub/
     ln -s /mnt/NVME1/Media/Downloads/ /home/icyjiub/
     ln -s /mnt/Storage/Media/Music/ /home/icyjiub/
-else
-    echo "Skipping Desktop Drive Setup"
 fi
 
 #set up chaotic AUR
@@ -99,15 +95,11 @@ sudo pacman -S --noconfirm base-devel mpv zsh firefox tldr curl steam lutris fla
 if(isAMDGPU)
 then
     sudo pacman -S --noconfirm mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau corectrl
-else
-    echo "Skipping AMD Mesa install"
 fi
 
 if(isBTRFSsystem)
 then
     sudo pacman -S --noconfirm grub-btrfs
-else
-    echo "Skipping grub-btfs install"
 fi
 
 #install yay for AUR access
@@ -132,8 +124,6 @@ then
     sudo su -c "echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/radeon_icd.i686.json:/usr/share/vulkan/icd.d/radeon_icd.x86_64.json' >> /home/icyjiub/.profile"
     sudo su -c "echo 'AMD_VULKAN_ICD=RADV' >> /home/icyjiub/.zshrc"
     sudo su -c "echo 'VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/radeon_icd.i686.json:/usr/share/vulkan/icd.d/radeon_icd.x86_64.json' >> /home/icyjiub/.zshrc"
-else
-    echo "Skipping Proprietary AMD Drivers"
 fi
 
 #install AUR packages
@@ -175,8 +165,6 @@ then
     yay -S --sudoloop timeshift-autosnap
     yay -S --sudoloop update-grubhttps://github.com/dotaxis/7H-SteamDeck-Fix
     sudo systemctl enable grub-btrfs.path
-else
-    echo "Skipping BTRFS Snapshotting Setup"
 fi
 
 #clear yay settings
@@ -186,8 +174,6 @@ if(isRyzen)
 then
     #blacklist ryzen watchdog for less annoyance at reboots
     sudo su -c "echo 'blacklist sp5100_tco' > /etc/modprobe.d/disable-sp5100-watchdog.conf"
-else
-    echo "Skipping ryzen watchdog blacklist"
 fi
 
 #make edits to grub
@@ -198,8 +184,6 @@ then
     #not working yet
     #sudo sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT="/&amdgpu.ppfeaturemask=0xffffffff /' /etc/default/grub
     echo ""
-else
-    echo "Skipping AMD kernel option setting"
 fi
 
 #enable preload service
@@ -237,8 +221,6 @@ then
         }
     });
     ' >> /etc/polkit-1/rules.d/90-corectrl.rules"
-else
-    echo "Skipping CoreCtrl Setup"
 fi
 
 #set vmmax map count options for better wine perf / tweak from steamos
@@ -248,8 +230,6 @@ if(isGamingDesktop)
 then
     #copy monitor profile into colord folder
     sudo cp /mnt/Documents/Media/Documents/BenQXL2420Z120hz.icm usr/share/color/icc/colord/
-else
-    echo "Skipping ICC Profile Copying"
 fi
 
 #change shell to zsh
@@ -286,8 +266,6 @@ then
     flatpak install -y --noninteractive flathub io.github.shiiion.primehack
     flatpak install -y --noninteractive flathub dev.goats.xivlauncher
     flatpak install -y --noninteractive flathub io.github.am2r_community_developers.AM2RLauncher
-else
-    echo "Skipping Gaming Flatpaks"
 fi
 
 #enable byobu multiplexer by default
