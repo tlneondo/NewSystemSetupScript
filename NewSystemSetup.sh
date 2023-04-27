@@ -148,6 +148,7 @@ yay -S --sudoloop mullvad-vpn-bin
 yay -S --sudoloop vopono
 yay -S --sudoloop mpdevil
 yay -S --sudoloop preload
+yay -S --sudoloop ananicy
 yay -S --sudoloop visual-studio-code-bin
 yay -S --sudoloop discord-canary-update-skip-git
 
@@ -207,7 +208,7 @@ sudo systemctl enable preload.service
 #enable HRTF for openal
 echo "hrtf = true" > ~/.alsoftrc
 
-#enable SSH Server, bluetooth, preload
+#enable SSH Server, bluetooth, preload, ananicy
 sudo systemctl enable sshd.service
 sudo systemctl start sshd.service
 
@@ -216,6 +217,9 @@ sudo systemctl start bluetooth.service
 
 sudo systemctl enable preload.service
 sudo systemctl start preload.service
+
+sudo systemctl enable ananicy
+sudo systemctl start ananicy
 
 if(isAMDGPU)
 then
