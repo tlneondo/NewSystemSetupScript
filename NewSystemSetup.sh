@@ -6,10 +6,16 @@ isAMDGPU=0
 isRyzen=0
 
 echo "Is this your desktop? y or n - 1 or 0"
-read isGamingDesktop
+
+if $(hostname) == icyjiub-desktop; 
+    then isGamingDesktop=1
+fi
 
 echo "Is root a btrfs partition? y or n - 1 or 0"
-read isBTRFSsystem
+
+if df / --print-type | grep -q "btrfs";
+    then isBTRFSsystem=1
+fi
 
 echo "Does this use an AMD GPU? y or n - 1 or 0"
 read isAMDGPU
