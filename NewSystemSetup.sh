@@ -267,7 +267,10 @@ then
 fi
 
 #enable byobu multiplexer by default
-byobu-enable
+#byobu-enable
+
+#enable pulseaudio autoswitch
+#pactl load-module module-switch-on-connect
 
 
 #run installer for oh my zsh
