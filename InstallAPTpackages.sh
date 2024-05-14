@@ -1,7 +1,8 @@
 sudo add-apt-repository ppa:kisak/kisak-mesa
+sudo add-apt-repository ppa:tatokis/ckb-next
 sudo apt update
 
-sudo apt install plasma-workspace-wayland build-essential manpages-dev zsh firefox tldr yt-dlp gamemode corectrl flatpak plasma-discover-backend-flatpak syncthing openssh-server curl qbittorrent wget gpg
+sudo apt install plasma-workspace-wayland build-essential manpages-dev zsh firefox tldr yt-dlp gamemode corectrl flatpak plasma-discover-backend-flatpak syncthing openssh-server curl qbittorrent wget gpg ckb-next
 
 #vscode
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
