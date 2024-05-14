@@ -6,7 +6,7 @@
             action.id == "org.corectrl.helperkiller.init") &&
             subject.local == true &&
             subject.active == true &&
-            subject.isInGroup("your-user-group")) {
+            subject.isInGroup("icyjiub")) {
                 return polkit.Result.YES;
         }
     });
