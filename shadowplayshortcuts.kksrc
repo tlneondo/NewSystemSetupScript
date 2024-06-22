@@ -1,0 +1,8 @@
+[save-replay.sh.desktop][Global Shortcuts]
+_launch=Ctrl+Alt+P
+
+[start-replay.sh.desktop][Global Shortcuts]
+_launch=Ctrl+Alt+[
+
+[stop-replay.sh.desktop][Global Shortcuts]
+_launch=Ctrl+Alt+]

@@ -20,7 +20,7 @@ sudo dnf check-update
 sudo dnf update
 
 
-sudo dnf install mpv wget zsh firefox tldr curl steam lutris mullvad-vpn flatpak qbittorrent yt-dlp filezilla gamemode corectrl syncthing ckb-next obs-studio xivlauncher kernel-cachyos kernel-cachyos-devel-matched libcap-ng libcap-ng-devel procps-ng procps-ng-devel uksmd make automake gcc gcc-c++ kernel-devel cmake git kate btrfs-assistant
+sudo dnf install mpv git wget zsh chntpw python3-pip firefox tldr curl steam lutris mullvad-vpn flatpak qbittorrent yt-dlp filezilla gamemode corectrl syncthing ckb-next obs-studio xivlauncher kernel-cachyos kernel-cachyos-devel-matched libcap-ng libcap-ng-devel procps-ng procps-ng-devel uksmd make automake gcc gcc-c++ kernel-devel cmake git kate btrfs-assistant
 
 #install python based bluetooth syncsudo dnf config-manager --add-repo https://repository.mullvad.net/rpm/stable/mullvad.repo
 sudo pip install bt-dualboot
