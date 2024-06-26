@@ -1,0 +1,11 @@
+# vim /etc/modules-load.d/hid-playstation.conf
+
+# add the following line to the file:
+hid_playstation
+
+
+
+# vim /etc/bluetooth/input.conf
+
+# add the following line to the file:
+UserspaceHID=true
