@@ -1,0 +1,67 @@
+
+only run #2 if you need to remove other InstallBetaDrivers
+
+so, 1->3->4 for first install
+
+
+NvidiaInstall1-KernelModuleSigning.sh
+
+```#Setup self Signing Kernel Modules
+sudo dnf install kmodtool akmods mokutil openssl
+sudo kmodgenca -a
+sudo mokutil --import /etc/pki/akmods/certs/public_key.der
+
+echo "Please Reboot"```
+
+NvidiaInstall2-RemoveOldDrivers.sh
+
+```#remove old nvidia drivers
+sudo dnf -y remove *nvidia*
+sudo dnf -y remove libva-utils vdpauinfo
+sudo dnf -y remove xorg-x11-drv-nvidia\*
+sudo dnf -y remove nvidia-driver nvidia-driver-libs.i686 nvidia-settings
+
+sudo dnf copr disable kwizart/nvidia-driver-rawhide -y
+sudo rm /etc/yum.repos.d/fedora-nvidia.repo```
+
+
+NvidiaInstall3-InstallBetaDrivers.sh
+
+```sudo dnf install "kernel-devel-uname-r >= $(uname -r)"
+sudo dnf update -y
+sudo dnf install libva-utils vdpauinfo
+sudo dnf copr enable kwizart/nvidia-driver-rawhide -y
+sudo dnf install rpmfusion-nonfree-release-rawhide -y
+sudo dnf --enablerepo=rpmfusion-nonfree-rawhide --releasever=43 install akmod-nvidia xorg-x11-drv-nvidia xorg-x11-drv-nvidia-cuda xorg-x11-drv-nvidia-power vulkan xorg-x11-drv-nvidia-cuda-libs xorg-x11-drv-nvidia-libs.i686 nvidia-vaapi-driver --nogpgcheck
+sudo systemctl enable nvidia-{suspend,resume,hibernate}
+
+
+echo "Now we run the next script to import any options into the grub bootloader and make sure kernel modules are compiled then we'll be set"```
+
+NvidiaInstall3-InstallStableDriver.sh
+
+```#official rpmfusion instructions for stable driver
+sudo dnf install "kernel-devel-uname-r >= $(uname -r)"
+sudo dnf update -y
+sudo dnf install libva-utils vdpauinfo
+sudo dnf install akmod-nvidia
+sudo dnf install xorg-x11-drv-nvidia-cuda xorg-x11-drv-nvidia-power vulkan xorg-x11-drv-nvidia-cuda-libs xorg-x11-drv-nvidia-libs.i686 nvidia-vaapi-driver
+sudo systemctl enable nvidia-{suspend,resume,hibernate}
+
+
+echo "Now we run the next script to import any options into the grub bootloader and make sure kernel modules are compiled then we'll be set"```
+
+
+NvidiaInstall4-ConfigureGrub.sh
+
+```
+#Make sure the kernel modules got compiled
+sudo akmods --force
+
+#Make sure the boot image got updated as well
+sudo dracut --force
+
+#update grub with new options
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+
+echo "Please Reboot"```

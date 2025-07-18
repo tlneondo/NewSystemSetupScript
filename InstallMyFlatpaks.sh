@@ -15,7 +15,6 @@ flatpak install -y --noninteractive flathub org.DolphinEmu.dolphin-emu
 flatpak install -y --noninteractive flathub net.rpcs3.RPCS3
 flatpak install -y --noninteractive flathub io.github.shiiion.primehack
 flatpak install -y --noninteractive flathub dev.vencord.Vesktop
-
-#SystemPackage
-sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-sudo flatpak install flathub com.dec05eba.gpu_screen_recorder
+flatpak install -y --noninteractive flathub one.ablaze.floorp
+flatpak install -y --noninteractive flathub org.mozilla.firefox
+flatpak install -y --noninteractive flathub fr.handbrake.ghb
