@@ -6,3 +6,5 @@ flatpak install -y --noninteractive flathub org.chromium.Chromium
 flatpak install -y --noninteractive flathub org.signal.Signal
 flatpak install -y --noninteractive flathub org.onlyoffice.desktopeditors
 flatpak install -y --noninteractive flathub com.github.Matoking.protontricks
+flatpak install -y --noninteractive flathub fr.handbrake.ghb
+flatpak install -y --noninteractive flathub dev.vencord.Vesktop

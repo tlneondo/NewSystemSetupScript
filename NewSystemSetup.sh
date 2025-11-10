@@ -29,5 +29,8 @@ sudo systemctl start bluetooth.service
 #set vmmax map count options for better wine perf / tweak from steamos
 sudo su -c "echo 'vm.max_map_count = 2147483642' > /etc/sysctl.d/99-sysctl.conf"
 
-#change shell to zsh
-chsh -s /usr/bin/zsh icyjiub
+
+sudo su -c "echo '__GL_SHADER_DISK_CACHE_SIZE=12000000000' > /etc/environment"
+
+
+bash ./InstallOhMyZsh.sh
